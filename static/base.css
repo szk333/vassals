@@ -1,0 +1,12 @@
+form .alert ul li {
+    list-style: none!important;
+}
+
+form .alert ul {
+    padding: 0!important;
+    margin: 0!important;
+}
+
+.asteriskField {
+    display: none!important;
+}
