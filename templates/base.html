@@ -10,8 +10,10 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
     <link rel="stylesheet" type="text/css" href="/static/base.css">
-
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="../static/base.js"></script>
     <title>{% block title %}Wasalowie{% endblock %}</title>
 
 
@@ -21,18 +23,25 @@
     <div class="container">
         <a class="navbar-brand" href="{% url 'home' %}">Wasalowie</a>
         {% if user.is_authenticated %}
-            <div class=" ml-auto">
-                <ul class="navbar-nav">
-                                <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown07" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Moje konto</a>
-              <div class="dropdown-menu" aria-labelledby="dropdown07">
-                            <a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a>
-                            <a class="dropdown-item" href="{% url 'password_change' %}">Zmień hasło</a>
-              </div>
-            </li>
-                </ul>
-            </div>
-            </div>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#"> <i class='fas fa-coins'></i> {{ user.gold |floatformat:"0" }}
+                    </a>
+                </li>
+                <li class="nav-item " data-toggle="tooltip" data-placement="bottom"
+                    title="Własne punkty: {{ user.points }}">
+                    <a class="nav-link disabled" href="#"> <i class='fas fa-star'></i> {{ user.all_points }}</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Moje konto</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown07">
+                        <a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a>
+                        <a class="dropdown-item" href="{% url 'password_change' %}">Zmień hasło</a>
+                    </div>
+                </li>
+
+            </ul>
         {% endif %}
     </div>
 </nav>

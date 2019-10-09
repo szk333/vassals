@@ -1,12 +1,16 @@
 form .alert ul li {
-    list-style: none!important;
+    list-style: none !important;
 }
 
 form .alert ul {
-    padding: 0!important;
-    margin: 0!important;
+    padding: 0 !important;
+    margin: 0 !important;
 }
 
 .asteriskField {
-    display: none!important;
+    display: none !important;
+}
+
+.navbar-nav li:hover .dropdown-menu {
+    display: block!important;
 }

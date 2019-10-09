@@ -14,6 +14,7 @@ from users.forms import CustomCreationForm
 
 @login_required
 def home(request):
+    request.user.update_gold()
     return render(request, 'sites/home.html')
 
 def signup(request):

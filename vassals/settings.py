@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 
 INSTALLED_APPS += [
     'users',
+    'core'
 
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -135,3 +136,4 @@ STATICFILES_DIRS = (
 AUTH_USER_MODEL = 'users.User'
 
 LOGOUT_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'home'
