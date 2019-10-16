@@ -1,21 +1,20 @@
-import datetime
-
-from django import template
-from django.contrib.auth.forms import UserCreationForm
-from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum, F
 from django.shortcuts import render, redirect
 
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.csrf import csrf_protect, csrf_exempt
-from rest_framework import generics
-
+from core.constants import BASE_DIPLOMAT_COST
 from users.forms import CustomCreationForm
+from users.models import Diplomats
 
 
 @login_required
 def home(request):
     request.user.update_gold()
-    return render(request, 'sites/home.html')
+    current = Diplomats.objects.filter(owner=request.user).aggregate(sum=Sum('number'))['sum'] or 0
+
+    return render(request, 'sites/home.html',
+                  {'current': current, 'BASE_DIPLOMAT_COST': BASE_DIPLOMAT_COST})
+
 
 def signup(request):
     if request.method == 'POST':
@@ -28,3 +27,16 @@ def signup(request):
     return render(request, 'registration/signup.html', {
         'form': form
     })
+
+
+@login_required
+def buy_diplomats(request):
+    if request.method == 'POST':
+        d = Diplomats.objects.filter(owner=request.user, destination=request.user)
+        if d:
+            d.update(number=F('number') + request.POST['number_to_buy'])
+        else:
+            Diplomats.objects.create(owner=request.user, number=request.POST['number_to_buy'])
+        request.user.gold -= int(request.POST['cost'])
+        request.user.save()
+    return redirect('home')

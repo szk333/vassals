@@ -1,4 +1,4 @@
 {%  extends 'base.html' %}
 {% block content %}
-    gold {{ user.gold |floatformat:"0"}}
+    {% include 'partials/buy_diplomats.html' %}
 {% endblock %}
