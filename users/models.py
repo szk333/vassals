@@ -6,11 +6,12 @@ from core.constants import TITLES
 
 
 class User(AbstractUser):
-    gold = models.IntegerField(default=0)
+    gold = models.PositiveIntegerField(default=0)
     last_check = models.DateTimeField(blank=True, null=True)
-    points = models.IntegerField(default=50)
+    points = models.PositiveIntegerField(default=50)
     liege = models.ForeignKey('self', null=True, blank=True, related_name='vassals', on_delete=models.SET_NULL)
-
+    recruits=models.PositiveIntegerField(default=0)
+    soldiers=models.PositiveIntegerField(default=0)
     def update_gold(self):
         if self.last_check:
             self.gold += ((timezone.now() - self.last_check).total_seconds() * self.income)
