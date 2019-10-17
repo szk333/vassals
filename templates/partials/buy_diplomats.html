@@ -4,7 +4,7 @@
         <form method="post" action="{% url 'buy_diplomats' %}">
             {% csrf_token %}
             <p class="range-field">
-                Koszt:<span id="result_diplomats"></span>
+                Koszt: <span id="result_diplomats"></span>
                 <input type="range" id="diplomats_form" name="number_to_buy" min="0" onchange="change()" value="0"/>
                 <input type="hidden" name="cost" id="diplomats_cost"/>
             </p>
@@ -16,8 +16,7 @@
 <script>
     function cost(str_number) {
         let number = parseInt(str_number);
-        return ( {{ BASE_DIPLOMAT_COST }} * ({{ current }} * number + (number ** 2 + number) / 2;
-    ))
+        return ( {{ BASE_DIPLOMAT_COST }} * ({{ current }} * number + (number ** 2 + number) / 2))
     }
 
     let gold = {{ user.gold|floatformat:"0" }};
