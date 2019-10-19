@@ -7,9 +7,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
     <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
     <!--Import Google Icon Font-->
@@ -24,22 +22,51 @@
 
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-    <div class="container">
-        <a class="navbar-brand" href="{% url 'home' %}">Wasalowie</a>
+{#<nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">#}
+{#    <div class="container">#}
+{#        <a class="navbar-brand" href="{% url 'home' %}">Wasalowie</a>#}
+{#        {% if user.is_authenticated %}#}
+{#            <ul class="navbar-nav ml-auto grey-text">#}
+{#                <li class="nav-item mt-2">#}
+{#                    <p> {{ user.title }} {{ user.username }}</p>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                    <a class="nav-link disabled" href="#"> <i class='fas fa-coins'></i> {{ user.gold |floatformat:"0" }}#}
+{#                    </a>#}
+{#                </li>#}
+{#                <li class="nav-item tooltipped" data-position="bottom" data-tooltip="Własne punkty: {{ user.points }}">#}
+{#                    <a class="nav-link disabled" href="#"> <i class='fas fa-star'></i> {{ user.all_points }}</a>#}
+{#                </li>#}
+{#                <li class="nav-item dropdown">#}
+{#                    <a class="nav-link dropdown-toggle" href="#" id="dropdown07"#}
+{#                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Moje konto</a>#}
+{#                    <div class="dropdown-menu" aria-labelledby="dropdown07">#}
+{#                        <a class="dropdown-item" href="{% url 'logout' %}">Wyloguj</a>#}
+{#                        <a class="dropdown-item" href="{% url 'password_change' %}">Zmień hasło</a>#}
+{#                    </div>#}
+{#                </li>#}
+{##}
+{#            </ul>#}
+{#        {% endif %}#}
+{#    </div>#}
+{#</nav>#}
+<nav>
+    <div class="nav-wrapper">
+        <a class="brand-logo" href="{% url 'home' %}">Wasalowie</a>
+        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         {% if user.is_authenticated %}
-            <ul class="navbar-nav ml-auto grey-text">
-                <li class="nav-item mt-2">
+
+            <ul class="right hide-on-med-and-down">
+                <li>
                     <p> {{ user.title }} {{ user.username }}</p>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#"> <i class='fas fa-coins'></i> {{ user.gold |floatformat:"0" }}
-                    </a>
+                <li>
+                    <a href="#"> <i class='fas fa-coins'></i> {{ user.gold |floatformat:"0" }}</a>
                 </li>
-                <li class="nav-item tooltipped" data-position="bottom" data-tooltip="Własne punkty: {{ user.points }}">
+                <li class="tooltipped" data-position="bottom" data-tooltip="Własne punkty: {{ user.points }}">
                     <a class="nav-link disabled" href="#"> <i class='fas fa-star'></i> {{ user.all_points }}</a>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown07"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Moje konto</a>
                     <div class="dropdown-menu" aria-labelledby="dropdown07">
@@ -49,16 +76,23 @@
                 </li>
 
             </ul>
+            <ul class="side-nav" id="mobile-demo">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Services</a></li>
+            </ul>
+            </div>
+            </nav>
         {% endif %}
-    </div>
-</nav>
-
 <div class="container">
     {% block content %}
     {% endblock %}
 </div>
+
 <!--Import jQuery before materialize.js-->
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/js/materialize.min.js"></script>
-
+<script>
+    $(".button-collapse").sideNav();
+</script>
 </body>
