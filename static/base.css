@@ -11,11 +11,18 @@ form .alert ul {
     display: none !important;
 }
 
-.navbar-nav li:hover .dropdown-menu {
-    display: block!important;
-}
-
 nav ul li:hover, nav ul li.active {
-    background-color: rgba(0, 0, 0, 0.0);
-!important;
+    background-color: rgba(0, 0, 0, 0.0)!important;
+}
+nav .brand-logo, nav a{
+    color: black!important;
+}
+nav .nav-wrapper{
+    padding: 0 0.5rem;
+}
+.card{
+    padding: 0 1rem 1rem 1rem;
+}
+.body{
+
 }
