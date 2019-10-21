@@ -23,6 +23,6 @@ nav .nav-wrapper{
 .card{
     padding: 0 1rem 1rem 1rem;
 }
-.body{
-
+h2 {
+  font-size: 5.5vh;
 }
