@@ -139,7 +139,5 @@ AUTH_USER_MODEL = 'users.User'
 
 LOGOUT_REDIRECT_URL = 'home'
 LOGIN_REDIRECT_URL = 'home'
-CRONJOBS = [
-    ('*/5 * * * *', 'core.utils.get_recruits')
-]
+
 django_heroku.settings(locals())
