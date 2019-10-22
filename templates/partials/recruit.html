@@ -1,0 +1,61 @@
+<div class="card">
+    <div class="card-body">
+        <h2 class="center-align">Rekrutuj</h2>
+        <div class="row">
+            <div class="col s12 l6">
+                <form method="post" action="{% url 'buy_diplomats' %}">
+                    {% csrf_token %}
+                    <p class="range-field">
+                        <label class="recruit_label" for="diplomats_form">Dyplomaci</label><br>
+                        Koszt: <span id="result_diplomats">0</span>
+                        <input type="range" id="diplomats_form" name="diplomats_to_buy" min="0" onchange="diplomats_change()"
+                               value="0"/>
+                        <input type="hidden" name="cost" id="diplomats_cost"/>
+                    </p>
+                    <button type="submit" class="btn btn-primary">Kup dyplomatów</button>
+                </form>
+            </div>
+            <div class="col s12 l6">
+
+                <form method="post" action="{% url 'buy_soldiers' %}">
+                    {% csrf_token %}
+                    <p class="range-field">
+                        <label class="recruit_label" for="soldiers_form">Wojsko</label><br>
+                        Koszt: <span id="result_soldiers">0</span>
+                        <input type="range" id="soldiers_form" name="soldiers_to_buy" min="0" onchange="soldiers_change()" value="0"/>
+                    </p>
+                    <button type="submit" class="btn btn-primary">Kup wojsko</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function cost(str_number) {
+        let number = parseInt(str_number);
+        return ( {{ BASE_DIPLOMAT_COST }} * ({{ current }} * number + (number ** 2 + number) / 2
+    ))
+    }
+
+    let gold = {{ user.gold|floatformat:"0" }};
+    let n = 0;
+    while (true) {
+        if (cost(n) <= gold) {
+            n += 1;
+        } else {
+            n -= 1;
+            document.getElementById("diplomats_form").max = n;
+            break;
+        }
+    }
+
+    function diplomats_change() {
+        document.getElementById('result_diplomats').innerHTML = cost(document.getElementById("diplomats_form").value);
+        document.getElementById('diplomats_cost').value = cost(document.getElementById("diplomats_form").value);
+    }
+    function soldiers_change() {
+        document.getElementById('result_soldiers').innerHTML = document.getElementById('soldiers_form').value*{{ BASE_SOLDIER_COST }};
+    }
+    document.getElementById("soldiers_form").max = Math.min({{ user.recruits }}, {% widthratio  user.gold BASE_SOLDIER_COST 1 %})
+</script>

@@ -7,14 +7,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<script src='https://kit.fontawesome.com/a076d05399.js'></script>
+    <script src='https://kit.fontawesome.com/a076d05399.js'></script>
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.3/css/materialize.min.css">
 
-
+    <style>
+        @import url("https://nagoshiashumari.github.io/Rpg-Awesome/stylesheets/rpg-awesome.min.css");
+    </style>
     <link rel="stylesheet" type="text/css" href="/static/base.css">
     <title>{% block title %}Wasalowie{% endblock %}</title>
 
@@ -25,13 +27,15 @@
 <nav>
     <div class="nav-wrapper white">
         <a class="brand-logo" href="{% url 'home' %}">Wasalowie</a>
-        <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
         {% if user.is_authenticated %}
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
             <ul class="right hide-on-med-and-down">
                 <li>
                     <a class="disabled"> {{ user.title }} {{ user.username }}</a>
                 </li>
+                <li><a class="disabled"><span class="ra ra-player"></span> {{ user.recruits }}</a></li>
+                <li><a class="disabled"><span class="ra ra-knight-helmet"></span> {{ user.soldiers }}</a></li>
                 <li><a class="disabled"><span class="fas fa-coins"></span> {{ user.gold |floatformat:"0" }}</a></li>
 
                 <li class="tooltipped" data-position="bottom" data-tooltip="Własne punkty: {{ user.points }}">
@@ -46,9 +50,12 @@
 
             </ul>
             <ul class="side-nav center-align" id="mobile-demo">
+
                 <li>
                     <a class="disabled"> {{ user.title }} {{ user.username }}</a>
                 </li>
+                <li><a class="disabled"><span class="ra ra-player"></span> {{ user.recruits }}</a></li>
+                <li><a class="disabled"><span class="ra ra-knight-helmet"></span> {{ user.soldiers }}</a></li>
                 <li><a class="disabled"><span class="fas fa-coins"></span> {{ user.gold |floatformat:"0" }}</a></li>
 
                 <li class="tooltipped" data-position="bottom" data-tooltip="Własne punkty: {{ user.points }}">
@@ -59,7 +66,7 @@
             </ul>
 
         {% endif %}
-                </div>
+    </div>
 
 </nav>
 <div class="container">

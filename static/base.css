@@ -12,17 +12,32 @@ form .alert ul {
 }
 
 nav ul li:hover, nav ul li.active {
-    background-color: rgba(0, 0, 0, 0.0)!important;
+    background-color: rgba(0, 0, 0, 0.0) !important;
 }
-nav .brand-logo, nav a{
-    color: black!important;
+
+nav .brand-logo, nav a {
+    color: black !important;
 }
-nav .nav-wrapper{
+
+nav .nav-wrapper {
     padding: 0 0.5rem;
 }
-.card{
+
+.card {
     padding: 0 1rem 1rem 1rem;
 }
-h2 {
-  font-size: 5.5vh;
+
+.card h2 {
+    font-size: 5.5vh;
+    margin-bottom: -1rem;
+
+}
+
+button, a.btn {
+    font-size: 1.5vh;
+}
+
+.recruit_label {
+    font-size: 3vh;
+!important;
 }
