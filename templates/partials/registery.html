@@ -1,0 +1,25 @@
+  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Rejestr</a>
+
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <h4>Rejsetr</h4>
+      <table class="highlight">
+        <thead>
+          <tr>
+              <th>Użytkownik</th>
+              <th>Akcje</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% autoescape off %}
+            {{ register }}
+        {% endautoescape  %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+<script>
+    function war_form(target_id) {
+            $('#war'+target_id).toggle()
+    }
+</script>

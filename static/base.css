@@ -41,3 +41,16 @@ button, a.btn {
     font-size: 3vh;
 !important;
 }
+
+.modal {
+    color: black !important;
+}
+
+.table_header {
+    text-align: center;
+    font-size: 3vh;
+}
+
+.register {
+    height: 60px!important;
+}
