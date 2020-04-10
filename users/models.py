@@ -97,6 +97,13 @@ class War(models.Model):
 
     def resolve_war(self):
         pass
+
     @staticmethod
-    def avaiable_war(user1, user2):
-        pass
+    def existing_wars(user1, user2):
+        qs = War.objects.filter(attacker=user1).filter(defender=user2)
+        qs2= War.objects.filter(attacker=user2).filter(defender=user1)
+        print(qs, qs2)
+        return qs or qs2
+
+    def __str__(self):
+        return self.get_type_display() + ' ' + str(self.attacker) + ' vs ' + str(self.defender)

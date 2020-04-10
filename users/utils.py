@@ -1,4 +1,4 @@
-from users.models import User
+from users.models import User, War
 from django.urls import reverse
 
 
@@ -12,7 +12,8 @@ def register_for_user(user):
     BUTTON = f"<button type='submit' class='btn btn-primary'>Wyślij wojsko</button>"
     if user.liege:
         html += '<tr><td colspan="2" class="table_header">Senior</td></tr>'
-        war_action = f"<button class='btn register waves-effect waves-light' onclick=war_form({user.liege.id})>" \
+        disabled = 'disabled' if War.existing_wars(user, user.liege) else ''
+        war_action = f"<button class='btn register waves-effect waves-light {disabled}' onclick=war_form({user.liege.id})>" \
                      f"<i class='ra ra-crossed-axes'></i></button>"
         war_form = f"<tr id='war{user.liege.id}' class='war_form' style='display:none;'><td colspan='2'>" \
                    f"<form method='post' action='{reverse('declare_war')}'><div class='row'>" \
@@ -37,7 +38,8 @@ def register_for_user(user):
     if vassals_of_user_liege:
         html += '<tr><td colspan="2" class="table_header">Wasale mojego seniora</td></tr>'
     for liege_vassal in vassals_of_user_liege:
-        war_action = f"<button class='btn register waves-effect waves-light' onclick=war_form({liege_vassal.id})>" \
+        disabled = 'disabled' if War.existing_wars(user, liege_vassal) else ''
+        war_action = f"<button class='btn register {disabled} waves-effect waves-light' onclick=war_form({liege_vassal.id})>" \
                      f"<i class='ra ra-crossed-axes'></i></button>"
         internal = INTERNAL if not user.income > liege_vassal.income else ''
 
@@ -54,7 +56,9 @@ def register_for_user(user):
     if independents:
         html += '<tr><td colspan="2" class="table_header">Niepodlegli</td></tr>'
     for independent in independents:
-        war_action = f"<button class='btn register waves-effect waves-light' onclick=war_form({independent.id})>" \
+        disabled = 'disabled' if War.existing_wars(user, independent) else ''
+
+        war_action = f"<button class='btn register waves-effect waves-light {disabled}' onclick=war_form({independent.id})>" \
                      f"<i class='ra ra-crossed-axes'></i></button>"
         external = EXTERNAL if not user.liege and not user.income > independent.income else ''
 

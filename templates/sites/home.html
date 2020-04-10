@@ -1,4 +1,8 @@
-{%  extends 'base.html' %}
+{% extends 'base.html' %}
 {% block content %}
     {% include 'partials/recruit.html' %}
+    {% if user.wars_attacker.count or user.wars_defender.count %}
+        <a class="waves-effect waves-light btn red" href="{% url 'wars' %}">Wojny</a>
+
+    {% endif %}
 {% endblock %}

@@ -78,3 +78,10 @@ def declare_war(request):
         request.user.save()
         defender.save()
     return redirect('home')
+
+@login_required
+def wars(request):
+    context = {
+        'register': register_for_user(request.user)
+    }
+    return render(request, 'sites/wars.html', context)
