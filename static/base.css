@@ -54,3 +54,6 @@ button, a.btn {
 .register {
     height: 60px!important;
 }
+.no-padding-bot{
+    padding-bottom: 0px!important;
+}

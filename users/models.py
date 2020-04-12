@@ -1,8 +1,12 @@
+from datetime import timedelta
+from decimal import Decimal
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models, transaction
 from django.utils import timezone
 
 from core.constants import TITLES, DAILY_RECRUIT_INCOME
+from users.managers import WarManager
 
 
 class User(AbstractUser):
@@ -27,7 +31,7 @@ class User(AbstractUser):
         self.save()
 
     def resolve_user_wars(self):
-        for war in War.objects.filter(attacker=self, defender=self):
+        for war in War.objects.all(): #maybe fiter it later
             war.resolve_war()
 
     def actions_on_login(self):
@@ -88,12 +92,19 @@ class War(models.Model):
         (2, 'Wewnętrzna wojna o chwałę'),
         (3, 'Zewnętrzna wojna o chwałę'),
     ]
+    STATUSES = [
+        (0, 'Aktywna'),
+        (1, 'Zakończona'),
+    ]
     started_at = models.DateTimeField(auto_now_add=True)
+    started_at.editable = True  # for admin site
     attacker = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wars_attacker')
     defender = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wars_defender')
     attacker_strength = models.DecimalField(default=0, max_digits=10, decimal_places=3)
     defender_strength = models.DecimalField(default=0, max_digits=10, decimal_places=3)
     type = models.SmallIntegerField(choices=WAR_TYPES)
+    status = models.SmallIntegerField(choices=STATUSES, default=0)
+    objects = WarManager()
 
     def resolve_war(self):
         pass
@@ -101,9 +112,20 @@ class War(models.Model):
     @staticmethod
     def existing_wars(user1, user2):
         qs = War.objects.filter(attacker=user1).filter(defender=user2)
-        qs2= War.objects.filter(attacker=user2).filter(defender=user1)
-        print(qs, qs2)
+        qs2 = War.objects.filter(attacker=user2).filter(defender=user1)
         return qs or qs2
+
+    def add_user_strength(self, user, value):
+        value = Decimal(str(value))
+        if user == self.attacker:
+            self.attacker_strength += value
+        elif user == self.defender:
+            self.defender_strength += value
+        self.save()
+
+    @property
+    def current_value_of_soldier(self):
+        return (self.started_at - timezone.now() + timedelta(days=1)).total_seconds() / (24 * 3600)
 
     def __str__(self):
         return self.get_type_display() + ' ' + str(self.attacker) + ' vs ' + str(self.defender)

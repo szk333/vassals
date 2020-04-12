@@ -1,28 +1,18 @@
 {% extends 'base.html' %}
+
 {% block content %}
     {% autoescape off %}
         <div class="row">
-            <div class="col s6">
+            <div class="col s12 l6">
                 {% for war in user.wars_attacker.all %}
-                    <div class="card green accent-3">
-                        <div class="card-content white-text">
-                            <span class="card-title">{{ war }}</span>
-                            {{ war.started_at }}
-                        </div>
-                    </div>
+                    {% include 'partials/war_card.html' with war=war color="green accent-3" %}
                 {% endfor %}
             </div>
-            <div class="col s6">
+            <div class="col s12 l6">
                 {% for war in user.wars_defender.all %}
-                    <div class="card yellow darken-3">
-                        <div class="card-content white-text">
-                            <span class="card-title">{{ war }}</span>
-                            {{ war.started_at }}
-                        </div>
-                    </div>
+                    {% include 'partials/war_card.html' with war=war color="yellow darken-3" %}
                 {% endfor %}
             </div>
-        </div>
         </div>
     {% endautoescape %}
 {% endblock %}

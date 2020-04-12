@@ -77,7 +77,8 @@ def declare_war(request):
         defender.soldiers = 0
         request.user.save()
         defender.save()
-    return redirect('home')
+    return redirect('wars')
+
 
 @login_required
 def wars(request):
@@ -85,3 +86,20 @@ def wars(request):
         'register': register_for_user(request.user)
     }
     return render(request, 'sites/wars.html', context)
+
+
+@login_required
+@transaction.atomic()
+def change_strength(request):
+    if request.method == 'POST':
+        data = request.POST
+        war = War.objects.get(id=int(data.get('id')))
+        amount = int(data.get('amount'))
+        request.user.soldiers -= amount
+        if amount < 0:
+            war.add_user_strength(request.user, amount)
+        else:
+            war.add_user_strength(request.user, war.current_value_of_soldier * amount)
+        request.user.save()
+        war.save()
+    return redirect('wars')

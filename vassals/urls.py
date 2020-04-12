@@ -18,7 +18,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from users.views import home, signup, buy_diplomats, buy_soldiers, declare_war, wars
+from users.views import home, signup, buy_diplomats, buy_soldiers, declare_war, wars, change_strength
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,7 @@ urlpatterns = [
     path('buy_diplomats/', buy_diplomats, name='buy_diplomats'),
     path('buy_soldiers/', buy_soldiers, name='buy_soldiers'),
     path('declare_war/', declare_war, name='declare_war'),
+    path('change_strength/', change_strength, name='change_strength'),
     path('wars/', wars, name='wars'),
     path('', home, name='home')
 ]

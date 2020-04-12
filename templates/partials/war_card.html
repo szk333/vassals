@@ -1,0 +1,29 @@
+{% load template_tags %}
+
+<div class="card {{ color }}">
+    <div class="card-content white-text no-padding-bot">
+        <span class="card-title">{{ war }}</span>
+        {{ war.started_at|remaining_time }}<br><br>
+        <form method="post" action="{% url 'change_strength' %}">
+            <div class="row">
+                <div class="input-field col s3">
+                    Ja: {{ war.attacker_strength }}
+                    {% csrf_token %}
+                    <input type="hidden" value="{{ war.id }}" name="id">
+                </div>
+                <div class="input-field col s3">
+                    <input
+                            type="number"
+                            step="1"
+                            max="{{ user.soldiers }}"
+                            min="{% widthratio -1 1 war.attacker_strength %}"
+                            name="amount">
+                </div>
+                <div class="input-field col s6">
+                    <button type="submit" class="btn btn-primary">Zmień</button>
+                    <span style="float:right;"> Przeciwnik: {{ war.defender_strength }}</span>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
