@@ -3,6 +3,8 @@ from datetime import timedelta
 from django import template
 from django.utils import timezone
 
+from core.models import Message
+
 register = template.Library()
 
 
@@ -30,3 +32,7 @@ def remaining_time(war_start_time):
     if secs > 0:
         timetot += " {} sekundy".format(int(secs))
     return timetot
+
+@register.simple_tag
+def unread_messages(request):
+    return Message.objects.filter(user=request.user, read=False).count()

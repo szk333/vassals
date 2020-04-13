@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     {% load static %}
+    {% load template_tags %}
 
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -12,12 +13,14 @@
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!--Import materialize.css-->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
 
     <style>
         @import url("https://nagoshiashumari.github.io/Rpg-Awesome/stylesheets/rpg-awesome.min.css");
     </style>
     <link rel="stylesheet" type="text/css" href="/static/base.css">
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
     <title>{% block title %}Wasalowie{% endblock %}</title>
 
 
@@ -30,6 +33,7 @@
         {% if user.is_authenticated %}
             <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
             <ul class="right hide-on-med-and-down">
+                <li><a href="{% url 'mailbox' %}"><i class="material-icons left">email</i>{% unread_messages request %}</a></li>
                 <li>{% include 'partials/registery.html' %}</li>
 
                 <li><a class="disabled"> {{ user.title }} {{ user.username }}</a></li>
@@ -74,11 +78,10 @@
 </div>
 
 <!--Import jQuery before materialize.js-->
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
-  <script>
-  M.AutoInit();
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
+<script>
+    M.AutoInit();
 
-  </script>
+</script>
 
 </body>

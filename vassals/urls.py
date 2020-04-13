@@ -18,7 +18,8 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-from users.views import home, signup, buy_diplomats, buy_soldiers, declare_war, wars, change_strength
+from users.views import home, signup, buy_diplomats, buy_soldiers, declare_war, wars, change_strength, mailbox, \
+    mark_as_read
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +30,8 @@ urlpatterns = [
     path('declare_war/', declare_war, name='declare_war'),
     path('change_strength/', change_strength, name='change_strength'),
     path('wars/', wars, name='wars'),
+    path('mailbox/', mailbox, name='mailbox'),
+    path('mailbox/', mailbox, name='mailbox'),
+    path('mailbox/<int:msg_id>/', mark_as_read, name='mark_as_read'),
     path('', home, name='home')
 ]

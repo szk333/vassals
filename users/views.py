@@ -1,9 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.db.models import Sum, F
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from core.constants import BASE_DIPLOMAT_COST, BASE_SOLDIER_COST
+from core.models import Message
 from users.forms import CustomCreationForm
 from users.models import Diplomats, War, User
 from users.utils import register_for_user
@@ -17,7 +19,7 @@ def home(request):
         'current': current,
         'BASE_DIPLOMAT_COST': BASE_DIPLOMAT_COST,
         'BASE_SOLDIER_COST': BASE_SOLDIER_COST,
-        'register': register_for_user(request.user)
+        'register': register_for_user(request.user),
     }
 
     return render(request, 'sites/home.html', context)
@@ -103,3 +105,18 @@ def change_strength(request):
         request.user.save()
         war.save()
     return redirect('wars')
+
+@login_required
+def mailbox(request):
+    context = {
+        'register': register_for_user(request.user),
+        'messages': Message.objects.filter(user=request.user),
+    }
+    return render(request, 'sites/mailbox.html', context)
+
+@login_required
+def mark_as_read(request, msg_id):
+    msg = Message.objects.get(id=int(msg_id))
+    msg.read = True
+    msg.save()
+    return HttpResponse('Msg read')

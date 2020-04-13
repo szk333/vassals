@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% if messages %}
+        <ul class="collapsible popout">
+            {% for message in messages %}
+                <li>
+                    {% if message.read %}
+                        <div class="collapsible-header">{{ message.title }}</div>
+                    {% else %}
+                        <div class="collapsible-header" id="message-{{ message.id }}" onclick="mark_as_read({{ message.id }},'{{ message.title }}')"><b>{{ message.title }}</b></div>
+                    {% endif %}
+
+                    <div class="collapsible-body"><span>{{ message.text }}</span></div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <script>
+    function mark_as_read(id, title) {
+        $.get(id);
+        $(`#message-${id}`).html(title);
+
+    }
+    </script>
+{% endblock %}
+
