@@ -31,7 +31,7 @@ class User(AbstractUser):
         self.save()
 
     def resolve_user_wars(self):
-        for war in War.objects.all(): #maybe fiter it later
+        for war in War.objects.finished():  # maybe fiter it later
             war.resolve_war()
 
     def actions_on_login(self):
@@ -106,8 +106,50 @@ class War(models.Model):
     status = models.SmallIntegerField(choices=STATUSES, default=0)
     objects = WarManager()
 
+    @transaction.atomic
     def resolve_war(self):
-        pass
+        from core.models import Message
+
+        if self.attacker_strength > self.defender_strength:
+            winner = self.attacker
+            looser = self.defender
+            if self.type == 0:  # vasalize defender
+                looser.liege = winner
+            if self.type == 1:  # unvasalize atacker
+                winner.liege = None
+            if self.type in [2, 3]:
+                points = round(looser.points * 0.2)
+                looser.points -= points
+                winner.points += points
+        else:
+            winner = self.defender
+            looser = self.attacker
+            if self.type == 0:  # transfer points
+                points = round(looser.points * 0.4)
+                looser.points -= points
+                winner.points += points
+            if self.type == 1:  # unvasalize atacker
+                points = round(looser.points * 0.2)
+                looser.points -= points
+                winner.points += points
+                Diplomats.objects.update_or_create(owner=looser, destination=winner, defaults={'number': 0})
+            if self.type in [2, 3]:
+                points = round(looser.points * 0.4)
+                looser.points -= points
+                winner.points += points
+
+        Message.objects.create(user=winner, title="Wygrałeś wojnę", text=f"Wygrałeś wojnę {self}")
+        Message.objects.create(user=looser, title="Przegrałeś wojnę", text=f"Przegrałeś wojnę {self}")
+
+        # calculate loses
+        str_sum = self.attacker_strength + self.defender_strength
+        self.attacker.soldiers += (self.attacker_strength * self.attacker_strength / str_sum)
+        self.defender.soldiers += (self.defender_strength * self.defender_strength / str_sum)
+
+        self.status = 1
+        self.save()
+        looser.save()
+        winner.save()
 
     @staticmethod
     def existing_wars(user1, user2):

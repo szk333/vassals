@@ -14,6 +14,7 @@ from users.utils import register_for_user
 @login_required
 def home(request):
     request.user.actions_on_login()
+    request.user.refresh_from_db()
     current = Diplomats.objects.filter(owner=request.user).aggregate(sum=Sum('number'))['sum'] or 0
     context = {
         'current': current,
@@ -110,7 +111,7 @@ def change_strength(request):
 def mailbox(request):
     context = {
         'register': register_for_user(request.user),
-        'messages': Message.objects.filter(user=request.user),
+        'messages': Message.objects.filter(user=request.user).order_by('-id'),
     }
     return render(request, 'sites/mailbox.html', context)
 
